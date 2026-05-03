@@ -1,0 +1,33 @@
+graph LR
+    subgraph Input["📥 Analysis Input"]
+        Direct["Direct Score from<br/>Rule Analyzer"]
+        Retrieved["Consensus from<br/>Retrieved Posts"]
+    end
+    
+    subgraph Logic["🧠 Confidence Logic"]
+        Agreement{"Direct Label<br/>== Consensus?"}
+        HighConf["Start: 0.9"]
+        LowConf["Start: 0.7"]
+        Boost["+ 0.1 if strong<br/>agreement in retrieved"]
+        Cap["Cap at 1.0"]
+    end
+    
+    subgraph Output["📊 Final Output"]
+        Confidence["Confidence Score<br/>[0.0 - 1.0]"]
+    end
+    
+    Direct --> Agreement
+    Retrieved --> Agreement
+    
+    Agreement -->|Yes| HighConf
+    Agreement -->|No| LowConf
+    
+    HighConf --> Boost
+    LowConf --> Boost
+    Boost --> Cap
+    Cap --> Confidence
+    
+    style Agreement fill:#FFF9C4,stroke:#F57F17,color:#000
+    style HighConf fill:#C8E6C9,stroke:#1B5E20,color:#000
+    style LowConf fill:#FFCCBC,stroke:#BF360C,color:#000
+    style Confidence fill:#81C784,stroke:#1B5E20,color:#fff

@@ -1,0 +1,56 @@
+graph TB
+    subgraph Validator["✅ MoodMachineValidator"]
+        T1["Test 1: Consistency<br/>Same input → Same output"]
+        T2["Test 2: Accuracy<br/>Against TRUE_LABELS"]
+        T3["Test 3: Calibration<br/>Confidence vs Correctness"]
+        T4["Test 4: Edge Cases<br/>Empty, special chars, long text"]
+    end
+    
+    subgraph Dataset["📚 Test Data"]
+        SAMPLE["SAMPLE_POSTS<br/>(6 posts)"]
+        TRUE["TRUE_LABELS<br/>(6 labels)"]
+    end
+    
+    subgraph Testing["🧪 Testing Process"]
+        Run["Run Tests"]
+        Measure["Measure Results"]
+        Report["Generate Report"]
+    end
+    
+    subgraph Metrics["📊 Metrics Tracked"]
+        Acc["Accuracy %"]
+        Conf["Confidence Scores"]
+        Cons["Consistency %"]
+        Cal["Calibration Status"]
+    end
+    
+    SAMPLE --> T1
+    SAMPLE --> T2
+    SAMPLE --> T3
+    SAMPLE --> T4
+    TRUE --> T2
+    
+    T1 --> Run
+    T2 --> Run
+    T3 --> Run
+    T4 --> Run
+    
+    Run --> Measure
+    Measure --> Acc
+    Measure --> Conf
+    Measure --> Cons
+    Measure --> Cal
+    
+    Acc --> Report
+    Conf --> Report
+    Cons --> Report
+    Cal --> Report
+    
+    Report -->|Print| Terminal["Console Output"]
+    Report -->|Log| Logfile["Log File"]
+    
+    style Validator fill:#F3E5F5,stroke:#6A1B9A,color:#000
+    style Dataset fill:#E3F2FD,stroke:#0D47A1,color:#000
+    style Metrics fill:#FFF9C4,stroke:#F57F17,color:#000
+    style Terminal fill:#C8E6C9,stroke:#1B5E20,color:#000
+    style Logfile fill:#FFCCBC,stroke:#BF360C,color:#000

@@ -1,0 +1,39 @@
+sequenceDiagram
+    participant User as User Input
+    participant Agent as MoodAgent
+    participant Analyzer as MoodAnalyzer
+    participant KB as Knowledge Base
+    participant Logger as Logger
+    participant Output as Output Result
+    
+    User->>Agent: Provide text to analyze
+    Note over Agent: Step 1: Preprocess
+    Agent->>Analyzer: preprocess(text)
+    Analyzer-->>Agent: tokens
+    Agent->>Logger: Log preprocess step
+    
+    Note over Agent: Step 2: Retrieve Similar
+    Agent->>KB: retrieve_similar(text)
+    KB-->>Agent: similar posts + labels + scores
+    Agent->>Logger: Log retrieval
+    
+    Note over Agent: Step 3: Score Text
+    Agent->>Analyzer: score_text(text)
+    Analyzer-->>Agent: numeric score
+    Agent->>Logger: Log direct score
+    
+    Note over Agent: Step 4: Analyze Retrieved
+    Agent->>KB: get_label_distribution(retrieved)
+    KB-->>Agent: mood distribution
+    Agent->>Logger: Log consensus
+    
+    Note over Agent: Step 5: Synthesize
+    Agent->>Agent: Determine final mood<br/>Calculate confidence
+    Agent->>Logger: Log synthesis
+    
+    Note over Agent: Step 6: Evaluate Confidence
+    Agent->>Agent: Calibrate confidence score
+    Agent->>Logger: Log confidence
+    
+    Agent->>Output: Return prediction dictionary
+    Output-->>User: Display mood + confidence + reasoning

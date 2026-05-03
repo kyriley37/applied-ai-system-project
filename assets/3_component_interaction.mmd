@@ -1,0 +1,64 @@
+graph LR
+    subgraph Input["🔤 Input"]
+        Text["Raw Text"]
+    end
+    
+    subgraph Main["🎯 MoodAgent<br/>(Orchestrator)"]
+        A1["Preprocess"]
+        A2["Retrieve"]
+        A3["Score"]
+        A4["Analyze"]
+        A5["Synthesize"]
+        A6["Calibrate"]
+    end
+    
+    subgraph Components["📦 Components"]
+        MA["MoodAnalyzer"]
+        KB["KnowledgeBase"]
+        L["Logger"]
+        V["Validator"]
+    end
+    
+    subgraph Output["📊 Output"]
+        Mood["Predicted Mood"]
+        Conf["Confidence"]
+        Reason["Reasoning"]
+        Related["Similar Posts"]
+    end
+    
+    Text --> A1
+    A1 --> A2
+    A2 --> A3
+    A3 --> A4
+    A4 --> A5
+    A5 --> A6
+    
+    A1 --> MA
+    A3 --> MA
+    A2 --> KB
+    A4 --> KB
+    
+    MA --> L
+    KB --> L
+    A1 --> L
+    A2 --> L
+    A3 --> L
+    A4 --> L
+    A5 --> L
+    A6 --> L
+    
+    A6 --> Mood
+    A6 --> Conf
+    A5 --> Reason
+    A2 --> Related
+    
+    V -.-> MA
+    V -.-> KB
+    V -.-> L
+    
+    style A1 fill:#E3F2FD,stroke:#1976D2
+    style A2 fill:#FFF3E0,stroke:#F57C00
+    style A3 fill:#E8F5E9,stroke:#388E3C
+    style A4 fill:#F3E5F5,stroke:#7B1FA2
+    style A5 fill:#FCE4EC,stroke:#C2185B
+    style A6 fill:#FFF9C4,stroke:#F57F17

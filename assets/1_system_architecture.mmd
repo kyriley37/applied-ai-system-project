@@ -1,0 +1,46 @@
+graph TB
+    subgraph Input["Input Layer"]
+        UI["Interactive UI / Batch Input"]
+    end
+    
+    subgraph Core["Core Intelligence Layer"]
+        Agent[" MoodAgent<br/>(Agentic Workflow)"]
+    end
+    
+    subgraph Processing["Processing Components"]
+        Analyzer["MoodAnalyzer<br/>(Rule-Based Scoring)"]
+        RAG["🔍 MoodKnowledgeBase<br/>(RAG Retrieval)"]
+    end
+    
+    subgraph Support["Support Systems"]
+        Logger["MoodMachineLogger<br/>(Logging & Guardrails)"]
+        Validator["MoodMachineValidator<br/>(Testing & Validation)"]
+    end
+    
+    subgraph Data["Data Layer"]
+        Dataset["Dataset<br/>(Posts & Labels)"]
+    end
+    
+    subgraph Output["Output Layer"]
+        Result[" Prediction + Confidence + Reasoning"]
+        Logs["Logs Directory"]
+    end
+    
+    UI --> Agent
+    Agent --> Analyzer
+    Agent --> RAG
+    Analyzer --> Logger
+    RAG --> Logger
+    Dataset --> RAG
+    Dataset --> Validator
+    Agent --> Result
+    Logger --> Logs
+    Validator --> Logs
+    
+    style Agent fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style Analyzer fill:#2196F3,stroke:#1565C0,color:#fff
+    style RAG fill:#FF9800,stroke:#E65100,color:#fff
+    style Logger fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    style Validator fill:#F44336,stroke:#C62828,color:#fff
+    style Result fill:#4CAF50,stroke:#2E7D32,color:#fff
+

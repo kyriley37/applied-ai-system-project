@@ -1,0 +1,60 @@
+classDiagram
+    class MoodAnalyzer {
+        -positive_words: set
+        -negative_words: set
+        +preprocess(text) str[]
+        +score_text(text) int
+        +predict_label(text) str
+        +explain(text) str
+    }
+    
+    class MoodKnowledgeBase {
+        -posts: list
+        -labels: list
+        -logger: MoodMachineLogger
+        +retrieve_similar(query) tuple[]
+        +get_label_distribution() dict
+        -_compute_similarity() float
+    }
+    
+    class MoodAgent {
+        -rule_analyzer: MoodAnalyzer
+        -knowledge_base: MoodKnowledgeBase
+        -logger: MoodMachineLogger
+        -step_count: int
+        +analyze_mood(text) dict
+        -_log_step() void
+        -_get_default_label() str
+        -_build_explanation() str
+    }
+    
+    class MoodMachineLogger {
+        -log_dir: str
+        -logger: logging.Logger
+        +log_event() void
+        +log_agent_reasoning() void
+        +log_mood_prediction() void
+        +log_retrieval() void
+        +log_error() void
+        +log_info() void
+    }
+    
+    class MoodMachineValidator {
+        -agent: MoodAgent
+        -logger: MoodMachineLogger
+        -results: dict
+        +test_consistency() dict
+        +test_accuracy() dict
+        +test_confidence_calibration() dict
+        +test_edge_cases() dict
+        +run_full_validation() dict
+        +print_validation_report() void
+    }
+    
+    MoodAgent --> MoodAnalyzer
+    MoodAgent --> MoodKnowledgeBase
+    MoodAgent --> MoodMachineLogger
+    MoodAnalyzer --> MoodMachineLogger
+    MoodKnowledgeBase --> MoodMachineLogger
+    MoodMachineValidator --> MoodAgent
+    MoodMachineValidator --> MoodMachineLogger

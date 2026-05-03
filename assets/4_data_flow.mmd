@@ -1,0 +1,38 @@
+flowchart TD
+    Input["📥 User Input: Text"] -->|Pass to Agent| Step1["⚙️ Step 1: Preprocess<br/>Remove punctuation, handle emojis"]
+    
+    Step1 -->|Tokenized text| Step2["🔍 Step 2: Retrieve Similar<br/>Search knowledge base"]
+    
+    Step2 -->|Similar posts + labels| Step3["📊 Step 3: Score Direct<br/>Count positive/negative words"]
+    
+    Step3 -->|Numeric score| Step4["📈 Step 4: Analyze Retrieved<br/>Get mood distribution"]
+    
+    Step4 -->|Consensus mood| Step5["🔄 Step 5: Synthesize<br/>Combine direct + retrieved"]
+    
+    Step5 -->|Preliminary prediction| Step6["⭐ Step 6: Calibrate<br/>Confidence scoring"]
+    
+    Step6 -->|Final mood + confidence| Output["📤 Output<br/>Mood + Confidence + Reasoning<br/>+ Retrieved Posts"]
+    
+    Step1 -->|Token info| LogA["📝 Log Step 1"]
+    Step2 -->|Retrieval details| LogB["📝 Log Step 2"]
+    Step3 -->|Score details| LogC["📝 Log Step 3"]
+    Step4 -->|Distribution| LogD["📝 Log Step 4"]
+    Step5 -->|Synthesis| LogE["📝 Log Step 5"]
+    Step6 -->|Confidence| LogF["📝 Log Step 6"]
+    
+    LogA --> Logfile["📋 Log File<br/>logs/mood_machine_*.log"]
+    LogB --> Logfile
+    LogC --> Logfile
+    LogD --> Logfile
+    LogE --> Logfile
+    LogF --> Logfile
+    
+    style Input fill:#C8E6C9,stroke:#2E7D32,color:#000
+    style Output fill:#81C784,stroke:#1B5E20,color:#fff
+    style Step1 fill:#BBDEFB,stroke:#0D47A1
+    style Step2 fill:#FFE0B2,stroke:#E65100
+    style Step3 fill:#C8E6C9,stroke:#1B5E20
+    style Step4 fill:#F8BBD0,stroke:#880E4F
+    style Step5 fill:#FFCCBC,stroke:#BF360C
+    style Step6 fill:#FFF9C4,stroke:#F57F17
+    style Logfile fill:#E1BEE7,stroke:#6A1B9A,color:#000

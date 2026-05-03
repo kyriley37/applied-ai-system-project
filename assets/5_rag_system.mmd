@@ -1,0 +1,44 @@
+graph TB
+    subgraph KB["🗂️ Knowledge Base<br/>(MoodKnowledgeBase)"]
+        Posts["📚 SAMPLE_POSTS<br/>[post1, post2, ...]"]
+        Labels["🏷️ TRUE_LABELS<br/>[positive, negative, ...]"]
+    end
+    
+    subgraph Query["🔍 Query Processing"]
+        Input["User Input Text"]
+        Similarity["Similarity Computation<br/>(Word Overlap)"]
+    end
+    
+    subgraph Retrieval["📊 Retrieval Engine"]
+        Rank["Rank by Similarity"]
+        Select["Select Top-K<br/>(k=3)"]
+    end
+    
+    subgraph Analysis["📈 Analysis"]
+        Distribution["Get Label Distribution<br/>Count moods in retrieved"]
+        Consensus["Find Consensus<br/>Most common mood"]
+    end
+    
+    subgraph Result["🎯 Retrieved Context"]
+        Similar["Similar Posts<br/>+ Labels + Scores"]
+        Mood["Consensus Mood<br/>for synthesis"]
+    end
+    
+    Input --> Similarity
+    Posts --> Similarity
+    Similarity --> Rank
+    Rank --> Select
+    Select --> Analysis
+    Labels --> Distribution
+    Distribution --> Consensus
+    Consensus --> Mood
+    Select --> Similar
+    
+    Similar --> Result
+    Mood --> Result
+    
+    style KB fill:#FFE0B2,stroke:#E65100,color:#000
+    style Query fill:#BBDEFB,stroke:#0D47A1
+    style Retrieval fill:#C8E6C9,stroke:#1B5E20,color:#000
+    style Analysis fill:#F8BBD0,stroke:#880E4F,color:#000
+    style Result fill:#FFCCBC,stroke:#BF360C,color:#000
