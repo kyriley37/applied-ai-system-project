@@ -82,16 +82,10 @@ Below are screenshots from the running system and architecture visuals.
 
 ![Testing Framework](assets/Testing_Framework.jpeg)
 
-## Submission checklist
+## Demo Video
 
-- [x] Code pushed to public GitHub repository
-- [x] Functional code present: `main.py`, `mood_analyzer.py`, `mood_agent.py`, `retrieval.py`, `logger.py`, `validator.py`
-- [x] Comprehensive `README.md`
-- [x] `model_card.md` completed with reflections
-- [x] System architecture diagram available in `assets/`
-- [x] Organized assets in `assets/`
-- [x] Demo walkthrough included via screenshots above
-- [x] Final changes committed and pushed
+[![Watch the demo](https://cdn.loom.com/sessions/thumbnails/bfcf956bf92b4300a38dc41b35959653-gif-poster.gif)](https://www.loom.com/share/bfcf956bf92b4300a38dc41b35959653)
+
 
 ## Notes on the architecture
 
