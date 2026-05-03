@@ -21,12 +21,12 @@ It is designed to help analyze sentiment in brief messages, including posts with
 ## 2. Data
 
 **Dataset description:**
-The dataset uses the six starter posts in `dataset.py` with matching labels in `TRUE_LABELS`.
-No additional posts were added for this submission, so the dataset remains small and focused on the starter examples.
+The dataset now includes AAVE and more colloquial language patterns in `dataset.py` along with the original starter posts.
+This update adds sample slang, intensifiers, and phrases such as `lit`, `salty`, `no cap`, and `lowkey`.
 
 **Labeling process:**
-Original labels were kept from the starter dataset. Labels reflect the human interpretation of each snippet's emotional tone.
-For example, `Feeling tired but kind of hopeful` was labeled `mixed` because it contains both negative and positive sentiment.
+Original labels were kept for the starter examples, and new AAVE examples were labeled by their emotional tone.
+For example, `Lowkey stressed but kind of proud of myself` was labeled `mixed` because it contains both negative and positive sentiment with nuanced slang.
 
 **Important characteristics of your dataset:**
 - Contains short, conversational posts
@@ -35,20 +35,22 @@ For example, `Feeling tired but kind of hopeful` was labeled `mixed` because it 
 - Lacks strong slang, emoji diversity, or long-form text
 
 **Possible issues with the dataset:**
-- The dataset is extremely small, with only six examples
-- It does not cover many language variations, slang, or sarcasm
-- Label coverage is limited and may not represent broader mood expressions
-- The model is effectively evaluated on its training examples, so accuracy is not a strong generalization measure
+- The dataset is still small, even after adding a few AAVE and slang examples.
+- It does not cover the full diversity of AAVE, vernacular, or cultural expression.
+- Label coverage is limited and may not represent broader mood expressions.
+- The model is effectively evaluated on its training examples, so accuracy is not a strong generalization measure.
 
 ## 3. How the Rule Based Model Works
 
 **Your scoring rules:**
 - Positive words add score; negative words subtract score.
 - Strong sentiment words receive higher weights.
-- Negation words like `not`, `no`, `never`, `don't`, and `didn't` flip sentiment for adjacent tokens.
+- Negation words like `not`, `no`, `never`, `ain't`, `don't`, and `didn't` flip sentiment for adjacent tokens.
+- AAVE slang is supported via special lexicon entries such as `lit`, `slay`, `salty`, and `wack`.
+- AAVE intensifiers like `mad`, `highkey`, and `deadass` amplify sentiment strength.
 - Emoticons and simple emoji markers are mapped to strong sentiment signals.
 - A final label mapping uses thresholds: score ≥ 2 → `positive`, score ≤ -2 → `negative`, and score between -1 and 1 for `neutral` or `mixed`.
-- If both positive and negative words appear in weak-score text, the model returns `mixed`.
+- If both positive and negative words appear in weak-score text, or if AAVE nuance is present, the model returns `mixed`.
 
 **Strengths of this approach:**
 - Transparent and explainable: each decision is traceable through tokens and scores.

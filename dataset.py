@@ -23,6 +23,13 @@ POSITIVE_WORDS = [
     "chill",
     "relaxed",
     "amazing",
+    "lit",
+    "dope",
+    "slay",
+    "slaying",
+    "periodt",
+    "no_cap",
+    "bet",
 ]
 
 NEGATIVE_WORDS = [
@@ -36,6 +43,11 @@ NEGATIVE_WORDS = [
     "stressed",
     "hate",
     "boring",
+    "salty",
+    "wack",
+    "trash",
+    "annoying",
+    "weak",
 ]
 
 # ---------------------------------------------------------------------
@@ -50,6 +62,12 @@ SAMPLE_POSTS = [
     "This is fine",
     "So excited for the weekend",
     "I am not happy about this",
+    "This party was so lit",
+    "I'm mad salty about that test",
+    "No cap, I'm feeling good now",
+    "Lowkey stressed but kind of proud of myself",
+    "That whole show was wack",
+    "She came through slaying, periodt",
 ]
 
 # Human labels for each post above.
@@ -65,6 +83,12 @@ TRUE_LABELS = [
     "neutral",   # "This is fine"
     "positive",  # "So excited for the weekend"
     "negative",  # "I am not happy about this"
+    "positive",  # "This party was so lit"
+    "negative",  # "I'm mad salty about that test"
+    "positive",  # "No cap, I'm feeling good now"
+    "mixed",     # "Lowkey stressed but kind of proud of myself"
+    "negative",  # "That whole show was wack"
+    "positive",  # "She came through slaying, periodt"
 ]
 
 # TODO: Add 5-10 more posts and labels.

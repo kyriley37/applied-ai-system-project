@@ -13,6 +13,39 @@ from typing import List, Dict, Tuple, Optional
 
 from dataset import POSITIVE_WORDS, NEGATIVE_WORDS
 
+AAVE_PHRASE_NORMALIZATION = {
+    "no cap": "no_cap",
+    "on fleek": "on_fleek",
+    "periodt": "periodt",
+    "deadass": "deadass",
+}
+
+AAVE_INTENSIFIERS = {
+    "mad": 2,
+    "highkey": 2,
+    "deadass": 2,
+}
+
+AAVE_MIXED_TERMS = {"lowkey", "highkey"}
+
+AAVE_POSITIVE_WORDS = {
+    "lit",
+    "dope",
+    "slay",
+    "slaying",
+    "periodt",
+    "no_cap",
+    "bet",
+}
+
+AAVE_NEGATIVE_WORDS = {
+    "salty",
+    "wack",
+    "trash",
+    "annoying",
+    "weak",
+}
+
 
 class MoodAnalyzer:
     """
@@ -59,14 +92,21 @@ class MoodAnalyzer:
             ':(': 'smiley_negative',
             ':D': 'smiley_very_positive',
             ':P': 'smiley_playful',
+            '😂': 'smiley_positive',
+            '🥲': 'smiley_mixed',
+            '💀': 'smiley_negative',
         }
-        
+
         for emoticon, marker in emoticon_map.items():
             if emoticon in cleaned:
                 cleaned = cleaned.replace(emoticon, f' {marker} ')
-        
+
+        # Normalize common AAVE phrases before punctuation removal
+        for phrase, normalized in AAVE_PHRASE_NORMALIZATION.items():
+            cleaned = cleaned.replace(phrase, f' {normalized} ')
+
         # Remove extra punctuation but keep apostrophes for contractions
-        cleaned = re.sub(r"[.,!?;:\\'\"@#$%^&*()\\-_+=\[\]{}<>|`~]", ' ', cleaned)
+        cleaned = re.sub(r'[.,!?;:"@#$%^&*()\-_+=\[\]{}<>|`~]', ' ', cleaned)
         
         # Normalize repeated characters (e.g., "soooo" -> "soo")
         cleaned = re.sub(r'(.)\1{2,}', r'\1\1', cleaned)
@@ -97,9 +137,9 @@ class MoodAnalyzer:
         # Define word weights (stronger words have higher impact)
         strong_positive = {"love", "amazing", "awesome", "excellent", "wonderful", "fantastic"}
         strong_negative = {"hate", "terrible", "awful", "horrible", "disgusting"}
-        
+
         # Negation words that flip sentiment
-        negation_words = {"not", "no", "never", "isn't", "isn't", "doesn't", "don't", "didn't"}
+        negation_words = {"not", "no", "never", "ain't", "nah", "naw", "isn't", "doesn't", "don't", "didn't"}
         
         score = 0
         i = 0
@@ -112,16 +152,29 @@ class MoodAnalyzer:
             if i > 0 and tokens[i - 1] in negation_words:
                 is_negated = True
             
-            # Score positive words
-            if token in self.positive_words:
-                weight = 2 if token in strong_positive else 1
+            # Apply AAVE-specific sentiment signals first
+            if token in AAVE_POSITIVE_WORDS:
+                weight = 2
+                if i > 0 and tokens[i - 1] in AAVE_INTENSIFIERS:
+                    weight *= AAVE_INTENSIFIERS[tokens[i - 1]]
                 score += weight if not is_negated else -weight
-            
+            elif token in AAVE_NEGATIVE_WORDS:
+                weight = 2
+                if i > 0 and tokens[i - 1] in AAVE_INTENSIFIERS:
+                    weight *= AAVE_INTENSIFIERS[tokens[i - 1]]
+                score -= weight if not is_negated else weight
+            # Score positive words
+            elif token in self.positive_words:
+                weight = 2 if token in strong_positive else 1
+                if i > 0 and tokens[i - 1] in AAVE_INTENSIFIERS:
+                    weight *= AAVE_INTENSIFIERS[tokens[i - 1]]
+                score += weight if not is_negated else -weight
             # Score negative words
             elif token in self.negative_words:
                 weight = 2 if token in strong_negative else 1
+                if i > 0 and tokens[i - 1] in AAVE_INTENSIFIERS:
+                    weight *= AAVE_INTENSIFIERS[tokens[i - 1]]
                 score -= weight if not is_negated else weight
-            
             # Score emoticons
             elif token == "smiley_positive":
                 score += 2
@@ -131,6 +184,8 @@ class MoodAnalyzer:
                 score -= 2
             elif token == "smiley_playful":
                 score += 1
+            elif token == "smiley_mixed":
+                score += 0
             
             i += 1
         
@@ -167,7 +222,10 @@ class MoodAnalyzer:
             has_positive = any(t in self.positive_words for t in tokens)
             has_negative = any(t in self.negative_words for t in tokens)
             
+            has_aave_mixed = any(t in AAVE_MIXED_TERMS for t in tokens)
             if has_positive and has_negative:
+                return "mixed"
+            elif has_aave_mixed and (has_positive or has_negative):
                 return "mixed"
             else:
                 return "neutral"

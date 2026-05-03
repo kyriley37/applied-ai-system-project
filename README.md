@@ -1,14 +1,16 @@
 # The Mood Machine (Advanced Submission)
 
 This project is based on the AI110 Module 3 starter repo: `ai110-module3tinker-themoodmachine-starter`.
-It extends the original Mood Machine with an **agentic workflow**, **retrieval-augmented reasoning**, **logging**, **validation**, and **system architecture documentation**.
+It extends the original Mood Machine with an **agentic workflow**, **retrieval-augmented reasoning**, **AAVE-aware mood analysis**, **logging**, **validation**, and **system architecture documentation**.
+
+This extension is motivated by the experience of building a mood analyzer as a Black developer who speaks AAVE. The model is designed to better recognize and interpret Black English and vernacular expressions, not just standard sentiment language.
 
 ## What this project does
 
 The Advanced Mood Machine analyzes short text and predicts mood labels such as **positive**, **negative**, **neutral**, or **mixed**.
 It combines:
 
-- A rule-based sentiment scorer in `mood_analyzer.py`
+- A rule-based sentiment scorer in `mood_analyzer.py` with AAVE slang, phrase normalization, and intensifier handling
 - A retrieval system in `retrieval.py` that finds similar examples from the dataset
 - An agent orchestrator in `mood_agent.py` that reasons through multiple steps
 - A validation suite in `validator.py` to measure consistency, accuracy, and confidence calibration
@@ -64,6 +66,9 @@ python main.py
 - Input: `This is fine` → Prediction: **negative**
 - Input: `So excited for the weekend` → Prediction: **positive**
 - Input: `I am not happy about this` → Prediction: **negative**
+- Input: `This party was so lit` → Prediction: **positive**
+- Input: `I'm mad salty about that test` → Prediction: **negative**
+- Input: `Lowkey stressed but kind of proud of myself` → Prediction: **mixed**
 
 These examples show how the system uses both rule-based scoring and retrieved similar posts to create a final prediction.
 
@@ -91,6 +96,12 @@ Below are screenshots from the running system and architecture visuals.
 ## Notes on the architecture
 
 The system architecture is stored in `assets/System_architecture.png` and embedded above. The architecture shows how input text flows through the agent, rule-based scoring, retrieval, logging, and output.
+
+## AAVE and cultural motivation
+
+This project intentionally adds support for Black English / AAVE because that language deserves to be understood by AI systems. The model includes explicit normalization for phrases like `no cap` and `periodt`, intensifier detection for terms like `deadass` and `highkey`, and mixed-tone support for terms like `lowkey`.
+
+It is built from the perspective of a developer who uses AAVE, so the system is not just a generic sentiment classifier — it is designed to be more inclusive of culturally grounded expression.
 
 ## Additional documentation
 
