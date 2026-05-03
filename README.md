@@ -86,6 +86,8 @@ Below are screenshots from the running system and architecture visuals.
 
 [![Watch the demo](https://cdn.loom.com/sessions/thumbnails/bfcf956bf92b4300a38dc41b35959653-gif-poster.gif)](https://www.loom.com/share/bfcf956bf92b4300a38dc41b35959653)
 
+https://www.loom.com/share/bfcf956bf92b4300a38dc41b35959653
+
 
 ## Notes on the architecture
 
