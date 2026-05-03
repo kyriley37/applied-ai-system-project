@@ -1,0 +1,15 @@
+# Python cache and environments
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs and runtime files
+logs/
+*.log
+
+# macOS files
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
